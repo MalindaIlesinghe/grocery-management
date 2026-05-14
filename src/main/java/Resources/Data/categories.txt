@@ -1,6 +1,0 @@
-CAT001,Fruits,Fresh seasonal fruits from local farms,,true
-CAT002,Dairy,Milk eggs cheese and dairy products,,true
-CAT003,Vegetables,Fresh organic vegetables,,true
-CAT004,Grains,Rice flour wheat and cereals,,true
-CAT005,Beverages,Juices soft drinks and water,,true
-CAT006,Snacks,Biscuits chips and packaged snacks,,false
