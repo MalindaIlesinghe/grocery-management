@@ -1,0 +1,3 @@
+A001,superadmin,super@grocery.com,super123,0771234567,Head Office,SUPER,2026-04-23 00:51:03,true
+A002,manager1,manager@grocery.com,manage123,0779876543,Branch Office,MANAGER,2025-03-18 09:30:00,true
+A003,staff1,staff@grocery.com,staff123,0762345678,Warehouse,STAFF,Never,true
