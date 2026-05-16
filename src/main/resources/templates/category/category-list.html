@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>Categories</title>
+<main>
+    <div class="container mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Product Categories</h2>
+            <a th:href="@{/category/add}" class="btn btn-success"
+               th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}">
+                + Add Category
+            </a>
+        </div>
+
+        <!-- Alerts -->
+        <div th:if="${param.added}"       class="alert alert-success">Category added.</div>
+        <div th:if="${param.updated}"     class="alert alert-success">Category updated.</div>
+        <div th:if="${param.deleted}"     class="alert alert-warning">Category deleted.</div>
+        <div th:if="${param.toggled}"     class="alert alert-info">Category status toggled.</div>
+        <div th:if="${param.hasProducts}" class="alert alert-danger">
+            Cannot delete — products still belong to this category.
+            Reassign or delete those products first.
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="c : ${categories}">
+                <div class="card h-100"
+                     th:classappend="${!c.active} ? ' border-secondary opacity-75' : ''">
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="card-title" th:text="${c.name}"></h5>
+                            <span th:class="${c.active} ? 'badge bg-success' : 'badge bg-secondary'"
+                                  th:text="${c.active} ? 'Active' : 'Inactive'">
+              </span>
+                        </div>
+
+                        <p class="card-text text-muted small" th:text="${c.description}"></p>
+
+                        <!-- Product count badge -->
+                        <p class="small">
+                            Products:
+                            <strong th:text="${productCounts[c.name] != null} ? ${productCounts[c.name]} : 0">
+                            </strong>
+                        </p>
+
+                    </div>
+
+                    <div class="card-footer d-flex flex-wrap gap-2">
+                        <!-- View products in this category -->
+                        <a th:href="@{/category/view(id=${c.id})}"
+                           class="btn btn-sm btn-outline-primary">Browse</a>
+
+                        <!-- Admin actions -->
+                        <th:block th:if="${session.loggedInUser != null
+                               and session.loggedInUser.role == 'ADMIN'}">
+
+                            <a th:href="@{/category/edit(id=${c.id})}"
+                               class="btn btn-sm btn-outline-secondary">Edit</a>
+
+                            <form th:action="@{/category/toggle}" method="post" style="display:inline">
+                                <input type="hidden" name="id" th:value="${c.id}">
+                                <button type="submit"
+                                        th:class="${c.active} ? 'btn btn-sm btn-outline-warning'
+                                             : 'btn btn-sm btn-outline-success'"
+                                        th:text="${c.active} ? 'Deactivate' : 'Activate'">
+                                </button>
+                            </form>
+
+                            <form th:action="@{/category/delete}" method="post"
+                                  style="display:inline"
+                                  onsubmit="return confirm('Delete this category?')">
+                                <input type="hidden" name="id" th:value="${c.id}">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty state -->
+        <div th:if="${#lists.isEmpty(categories)}" class="text-center text-muted mt-5">
+            <p>No categories yet. Add one to get started.</p>
+        </div>
+
+    </div>
+</main>
+</html>
