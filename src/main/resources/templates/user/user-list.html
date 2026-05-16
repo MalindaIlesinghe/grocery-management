@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>All Users</title>
+<main>
+    <div class="container mt-4">
+        <h2 class="mb-4">All Users</h2>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.username}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.phone}"></td>
+                <td>
+            <span th:class="${u.role == 'ADMIN'} ? 'badge bg-danger' : 'badge bg-secondary'"
+                  th:text="${u.role}"></span>
+                </td>
+                <td>
+                    <form th:action="@{/user/delete}" method="post" style="display:inline"
+                          onsubmit="return confirm('Delete this user?')">
+                        <input type="hidden" name="id" th:value="${u.id}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="6" class="text-center text-muted">No users registered yet.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</html>
