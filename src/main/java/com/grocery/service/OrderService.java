@@ -1,4 +1,4 @@
-package com.grocery.groceryordersystem.service;
+package com.grocery.service;
 
 import com.grocery.model.Order;
 import com.grocery.model.Product;
