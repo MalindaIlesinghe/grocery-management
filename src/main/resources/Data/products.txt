@@ -1,6 +1,0 @@
-P001,Apple,Fresh red apples from the hill country,250.0,49,Fruits,,true
-P002,Milk,Full cream fresh milk 1L,180.0,30,Dairy,,true
-P003,Carrot,Organic carrots per kg,120.0,40,Vegetables,,true
-P004,Rice,Samba rice 5kg bag,950.0,20,Grains,,true
-P005,Eggs,Farm fresh eggs per dozen,320.0,25,Dairy,,true
-P006,Banana,Local ambul banana bunch,150.0,0,Fruits,,false
