@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <title>Grocery product management</title>
+    <h1>Grocery Products</h1>
+
+    <a href="#" class="action-link">+ Add Product</a>
+
+    <div class="status-messages">
+        <div class="status-message">Product added successfully.</div>
+        <div class="status-message">Product updated successfully.</div>
+        <div class="status-message">Product deleted.</div>
+    </div>
+
+    <div class="search-filter-section">
+        <form action="#" method="GET">
+            <div class="form-group">
+                <input type="text" name="search" placeholder="Search by name or description">
+            </div>
+            <div class="form-group">
+                <select name="category">
+                    <option value="">All Categories</option>
+                    <option value="fruits">Fruits & Vegetables</option>
+                    <option value="dairy">Dairy & Eggs</option>
+                    <option value="bakery">Bakery</option>
+                </select>
+            </div>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+
+    <div class="product-list-section">
+        <div class="stock-label">Stock:</div>
+
+        <div class="action-buttons">
+            <a href="#" class="action-link" style="margin-right: 10px;">Edit</a>
+            <button type="button">Delete</button>
+        </div>
+
+        <p class="empty-message">No products found.</p>
+    </div>
+
+    </body>
+</html>
+
+</html>
+
+
