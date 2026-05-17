@@ -1,0 +1,4 @@
+REV001,U002,john,P001,Apple,5,Absolutely fresh and delicious!,2025-03-12 10:30:00,APPROVED,VERIFIED
+REV002,U003,sarah,P002,Milk,4,Good quality milk. Will order again.,2025-03-16 14:00:00,APPROVED,VERIFIED
+REV003,U002,john,P004,Rice,3,Average quality but good price.,2025-03-17 09:00:00,PENDING,PUBLIC
+REV004,U003,sarah,P001,Apple,5,Best apples I have ever had.,2025-03-19 11:30:00,APPROVED,PUBLIC
