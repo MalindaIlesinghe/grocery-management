@@ -37,12 +37,10 @@
           <tr>
             <th>Status</th>
             <td>
-              <span th:class="${order.status == 'PENDING'}    ? 'badge bg-warning text-dark' :
-                               (order.status == 'CONFIRMED')  ? 'badge bg-info text-dark'    :
-                               (order.status == 'DELIVERED')  ? 'badge bg-success'            :
-                                                                'badge bg-danger'"
-                    th:text="${order.status}">
-              </span>
+              <span th:if="${order.status == 'PENDING'}"   class="badge bg-warning text-dark">PENDING</span>
+              <span th:if="${order.status == 'CONFIRMED'}" class="badge bg-info text-dark">CONFIRMED</span>
+              <span th:if="${order.status == 'DELIVERED'}" class="badge bg-success">DELIVERED</span>
+              <span th:if="${order.status == 'CANCELLED'}" class="badge bg-danger">CANCELLED</span>
             </td>
           </tr>
         </table>
