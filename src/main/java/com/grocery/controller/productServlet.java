@@ -1,12 +1,9 @@
 package com.grocery.controller;
 
-public class productServlet {
-    package com.grocery.groceryordersystem.controller;
-
-import com.grocery.groceryordersystem.model.Product;
-import com.grocery.groceryordersystem.model.User;
-import com.grocery.groceryordersystem.service.CategoryService;
-import com.grocery.groceryordersystem.service.ProductService;
+import com.grocery.model.Product;
+import com.grocery.model.User;
+import com.grocery.service.CategoryService;
+import com.grocery.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
+public class productServlet {
     @Controller
     @RequestMapping("/product")
     public class ProductServlet {
