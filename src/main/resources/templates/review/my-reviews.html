@@ -30,11 +30,9 @@
                   th:text="${r.displayLabel}"></span>
                 </td>
                 <td>
-            <span th:class="${r.status == 'APPROVED'} ? 'badge bg-success' :
-                             (r.status == 'REJECTED') ? 'badge bg-danger'  :
-                                                        'badge bg-warning text-dark'"
-                  th:text="${r.status}">
-            </span>
+                    <span th:if="${r.status == 'APPROVED'}" class="badge bg-success">APPROVED</span>
+                    <span th:if="${r.status == 'REJECTED'}" class="badge bg-danger">REJECTED</span>
+                    <span th:if="${r.status == 'PENDING'}" class="badge bg-warning text-dark">PENDING</span>
                 </td>
                 <td th:text="${r.reviewDate}" class="small"></td>
                 <td>
