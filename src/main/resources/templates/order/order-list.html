@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>My Orders</title>
+<main>
+    <div class="container mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Orders</h2>
+            <a th:href="@{/order/place}" class="btn btn-success">+ New Order</a>
+        </div>
+
+        <div th:if="${param.placed}"    class="alert alert-success">Order placed successfully.</div>
+        <div th:if="${param.cancelled}" class="alert alert-warning">Order cancelled. Stock restored.</div>
+        <div th:if="${param.updated}"   class="alert alert-success">Order status updated.</div>
+        <div th:if="${param.deleted}"   class="alert alert-warning">Order deleted.</div>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Total (Rs.)</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${orders}">
+                <td th:text="${o.id}"></td>
+                <td th:text="${o.productName}"></td>
+                <td th:text="${o.quantity}"></td>
+                <td th:text="${o.totalPrice}"></td>
+                <td th:text="${o.orderDate}"></td>
+                <td>
+            <span th:class="${o.status == 'PENDING'}    ? 'badge bg-warning text-dark' :
+                             (o.status == 'CONFIRMED')  ? 'badge bg-info text-dark'    :
+                             (o.status == 'DELIVERED')  ? 'badge bg-success'            :
+                                                          'badge bg-danger'"
+                  th:text="${o.status}">
+            </span>
+                </td>
+                <td>
+                    <a th:href="@{/order/detail(id=${o.id})}"
+                       class="btn btn-sm btn-outline-primary me-1">View</a>
+
+                    <!-- Cancel: only for user's own PENDING orders -->
+                    <form th:if="${o.isPending()}"
+                          th:action="@{/order/cancel}" method="post"
+                          style="display:inline"
+                          onsubmit="return confirm('Cancel this order?')">
+                        <input type="hidden" name="id" th:value="${o.id}">
+                        <button type="submit" class="btn btn-sm btn-outline-warning">Cancel</button>
+                    </form>
+
+                    <!-- Admin: status update dropdown -->
+                    <th:block th:if="${session.loggedInUser != null
+                               and session.loggedInUser.role == 'ADMIN'}">
+                        <form th:action="@{/order/status}" method="post" style="display:inline">
+                            <input type="hidden" name="id" th:value="${o.id}">
+                            <select name="status" class="form-select form-select-sm d-inline-block w-auto"
+                                    onchange="this.form.submit()">
+                                <option value="PENDING"   th:selected="${o.status == 'PENDING'}">Pending</option>
+                                <option value="CONFIRMED" th:selected="${o.status == 'CONFIRMED'}">Confirmed</option>
+                                <option value="DELIVERED" th:selected="${o.status == 'DELIVERED'}">Delivered</option>
+                                <option value="CANCELLED" th:selected="${o.status == 'CANCELLED'}">Cancelled</option>
+                            </select>
+                        </form>
+                        <form th:action="@{/order/delete}" method="post"
+                              style="display:inline"
+                              onsubmit="return confirm('Permanently delete this order?')">
+                            <input type="hidden" name="id" th:value="${o.id}">
+                            <button type="submit" class="btn btn-sm btn-outline-danger ms-1">Delete</button>
+                        </form>
+                    </th:block>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(orders)}">
+                <td colspan="7" class="text-center text-muted">No orders found.</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>
+</html>
