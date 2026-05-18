@@ -35,12 +35,10 @@
                 <td th:text="${o.totalPrice}"></td>
                 <td th:text="${o.orderDate}"></td>
                 <td>
-            <span th:class="${o.status == 'PENDING'}    ? 'badge bg-warning text-dark' :
-                             (o.status == 'CONFIRMED')  ? 'badge bg-info text-dark'    :
-                             (o.status == 'DELIVERED')  ? 'badge bg-success'            :
-                                                          'badge bg-danger'"
-                  th:text="${o.status}">
-            </span>
+                    <span th:if="${o.status == 'PENDING'}"   class="badge bg-warning text-dark">PENDING</span>
+                    <span th:if="${o.status == 'CONFIRMED'}" class="badge bg-info text-dark">CONFIRMED</span>
+                    <span th:if="${o.status == 'DELIVERED'}" class="badge bg-success">DELIVERED</span>
+                    <span th:if="${o.status == 'CANCELLED'}" class="badge bg-danger">CANCELLED</span>
                 </td>
                 <td>
                     <a th:href="@{/order/detail(id=${o.id})}"
