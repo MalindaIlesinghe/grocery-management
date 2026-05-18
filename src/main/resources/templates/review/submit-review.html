@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>Write a Review</title>
+<main>
+  <div class="container mt-4" style="max-width: 540px;">
+    <h2 class="mb-1">Write a Review</h2>
+    <p class="text-muted mb-4"
+       th:text="'for ' + ${product.name}"></p>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <form th:action="@{/review/submit}" method="post">
+      <input type="hidden" name="productId" th:value="${product.id}">
+
+      <!-- Star rating selector -->
+      <div class="mb-3">
+        <label class="form-label">Rating</label>
+        <div class="d-flex gap-2 align-items-center">
+          <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio"
+                     name="rating" th:value="${i}" th:id="'star' + ${i}"
+                     th:checked="${i == 5}" required>
+              <label class="form-check-label"
+                     th:for="'star' + ${i}"
+                     th:text="${i} + ' ★'"></label>
+            </div>
+          </th:block>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <textarea name="comment" class="form-control" rows="4"
+                  placeholder="Share your experience with this product..."
+                  required minlength="10"></textarea>
+      </div>
+
+      <p class="text-muted small mb-3">
+        If you have a delivered order for this product, your review
+        will be marked as <strong>Verified Purchase</strong> automatically.
+      </p>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-success">Submit Review</button>
+        <a th:href="@{/review/view(productId=${product.id})}"
+           class="btn btn-outline-secondary">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</main>
+</html>

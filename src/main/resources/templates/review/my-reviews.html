@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>My Reviews</title>
+<main>
+    <div class="container mt-4">
+        <h2 class="mb-4">My Reviews</h2>
+
+        <div th:if="${param.deleted}" class="alert alert-warning">Review deleted.</div>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${reviews}">
+                <td th:text="${r.productName}"></td>
+                <td class="text-warning" th:text="${r.stars}"></td>
+                <td th:text="${r.comment}"></td>
+                <td>
+            <span th:class="'badge ' + ${r.badgeStyle}"
+                  th:text="${r.displayLabel}"></span>
+                </td>
+                <td>
+            <span th:class="${r.status == 'APPROVED'} ? 'badge bg-success' :
+                             (r.status == 'REJECTED') ? 'badge bg-danger'  :
+                                                        'badge bg-warning text-dark'"
+                  th:text="${r.status}">
+            </span>
+                </td>
+                <td th:text="${r.reviewDate}" class="small"></td>
+                <td>
+                    <form th:action="@{/review/delete}" method="post"
+                          onsubmit="return confirm('Delete this review?')">
+                        <input type="hidden" name="id" th:value="${r.id}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(reviews)}">
+                <td colspan="7" class="text-center text-muted">
+                    You have not written any reviews yet.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>
+</html>

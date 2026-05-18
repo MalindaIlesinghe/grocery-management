@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>Reviews</title>
+<main>
+    <div class="container mt-4" style="max-width: 700px;">
+
+        <!-- Product header -->
+        <div th:if="${product != null}" class="mb-4">
+            <h2 th:text="'Reviews for ' + ${product.name}"></h2>
+
+            <!-- Average rating display -->
+            <div class="d-flex align-items-center gap-3 mb-2">
+        <span class="fs-4 text-warning"
+              th:text="${avgRating > 0} ? ${#numbers.formatDecimal(avgRating,1,1)} + ' ★' : 'No ratings yet'">
+        </span>
+                <span class="text-muted small"
+                      th:text="'(' + ${#lists.size(reviews)} + ' reviews)'"></span>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a th:href="@{/review/submit(productId=${product.id})}"
+                   th:if="${session.loggedInUser != null}"
+                   class="btn btn-outline-success btn-sm">Write a Review</a>
+                <a th:href="@{/product/list}"
+                   class="btn btn-outline-secondary btn-sm">Back to Products</a>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div th:if="${param.submitted}"      class="alert alert-success">
+            Review submitted! It will appear after approval.
+        </div>
+        <div th:if="${param.alreadyReviewed}" class="alert alert-warning">
+            You have already reviewed this product.
+        </div>
+
+        <!-- Review cards -->
+        <div th:each="r : ${reviews}" class="card mb-3">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="fw-500" th:text="${r.username}"></span>
+                        <!-- Polymorphism: badge style differs for PUBLIC vs VERIFIED -->
+                        <span th:class="'badge ms-2 ' + ${r.badgeStyle}"
+                              th:text="${r.displayLabel}"></span>
+                    </div>
+                    <span class="text-warning" th:text="${r.stars}"></span>
+                </div>
+
+                <p class="mt-2 mb-1" th:text="${r.comment}"></p>
+                <small class="text-muted" th:text="${r.reviewDate}"></small>
+
+            </div>
+        </div>
+
+        <!-- Empty state -->
+        <div th:if="${#lists.isEmpty(reviews)}" class="text-center text-muted mt-4">
+            <p>No approved reviews yet. Be the first to write one!</p>
+        </div>
+
+    </div>
+</main>
+</html>
