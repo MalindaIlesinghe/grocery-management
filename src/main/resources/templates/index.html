@@ -1,10 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>Home — Grocery Order System</title>
+<main>
+    <div class="container mt-5">
 
-</body>
+        <!-- Hero -->
+        <div class="p-5 mb-4 bg-light rounded-3 text-center">
+            <h1 class="display-5 fw-bold">Fresh Groceries, Delivered</h1>
+            <p class="lead text-muted">
+                Browse our full range of fresh produce, dairy, grains and more.
+            </p>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <a th:href="@{/product/list}" class="btn btn-success btn-lg">
+                    Shop Now
+                </a>
+                <a th:href="@{/user/register}"
+                   th:if="${session.loggedInUser == null}"
+                   class="btn btn-outline-success btn-lg">
+                    Create Account
+                </a>
+                <a th:href="@{/order/place}"
+                   th:if="${session.loggedInUser != null}"
+                   class="btn btn-outline-success btn-lg">
+                    Place an Order
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick category links -->
+        <h4 class="mb-3">Shop by Category</h4>
+        <div class="row row-cols-2 row-cols-md-4 g-3 mb-5">
+            <div class="col">
+                <a th:href="@{/product/list(category='Fruits')}"
+                   class="card text-center text-decoration-none h-100">
+                    <div class="card-body">
+                        <p class="fs-3 mb-1">🍎</p>
+                        <p class="mb-0 fw-500">Fruits</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a th:href="@{/product/list(category='Vegetables')}"
+                   class="card text-center text-decoration-none h-100">
+                    <div class="card-body">
+                        <p class="fs-3 mb-1">🥦</p>
+                        <p class="mb-0 fw-500">Vegetables</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a th:href="@{/product/list(category='Dairy')}"
+                   class="card text-center text-decoration-none h-100">
+                    <div class="card-body">
+                        <p class="fs-3 mb-1">🥛</p>
+                        <p class="mb-0 fw-500">Dairy</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a th:href="@{/product/list(category='Grains')}"
+                   class="card text-center text-decoration-none h-100">
+                    <div class="card-body">
+                        <p class="fs-3 mb-1">🌾</p>
+                        <p class="mb-0 fw-500">Grains</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Browse all categories link -->
+        <div class="text-center mb-5">
+            <a th:href="@{/category/list}"
+               class="btn btn-outline-secondary">
+                View All Categories
+            </a>
+        </div>
+
+    </div>
+</main>
 </html>

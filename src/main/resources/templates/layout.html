@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${title}">Grocery Order System</title>
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link th:href="@{/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- ── Navbar ──────────────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold" th:href="@{/}">
+            🛒 Grocery Order System
+        </a>
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <!-- Left links — visible to everyone -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/product/list}">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/category/list}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/product/search}">Search</a>
+                </li>
+            </ul>
+
+            <!-- Right links — change based on login state -->
+            <ul class="navbar-nav ms-auto">
+
+                <!-- Not logged in -->
+                <th:block th:if="${session.loggedInUser == null}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/login}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/register}">Register</a>
+                    </li>
+                </th:block>
+
+                <!-- Logged in as regular USER -->
+                <th:block th:if="${session.loggedInUser != null
+                                   and session.loggedInUser.role == 'USER'}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/order/place}">Place Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/order/list}">My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/review/my-reviews}">My Reviews</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           data-bs-toggle="dropdown">
+                            <span th:text="${session.loggedInUser.username}"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item"
+                                   th:href="@{/user/profile}">My Profile</a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger"
+                                   th:href="@{/user/logout}">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </th:block>
+
+                <!-- Logged in as ADMIN -->
+                <th:block th:if="${session.loggedInUser != null
+                                   and session.loggedInUser.role == 'ADMIN'}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/dashboard}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/order/list}">Orders</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           data-bs-toggle="dropdown">
+                            <span th:text="${session.loggedInUser.username}"></span>
+                            <span class="badge bg-warning text-dark ms-1">Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item"
+                                   th:href="@{/product/add}">Add Product</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   th:href="@{/category/add}">Add Category</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   th:href="@{/review/moderate}">Moderate Reviews</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   th:href="@{/user/list}">Manage Users</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   th:href="@{/admin/list}">Manage Admins</a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger"
+                                   th:href="@{/admin/logout}">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </th:block>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ── Page content ─────────────────────────────────────────────────── -->
+<main th:replace="${content}">
+    <!-- Each page injects its content here -->
+</main>
+
+<!-- ── Footer ───────────────────────────────────────────────────────── -->
+<footer class="bg-light border-top mt-5 py-3">
+    <div class="container text-center text-muted small">
+        Grocery Order Management System &mdash; SE1020 OOP Project
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>
