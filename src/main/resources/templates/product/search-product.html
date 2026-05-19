@@ -1,27 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Search Products</title>
-</head>
-<body>
-<h1>Search Products</h1>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<title>Search Products</title>
+<main>
+    <div class="container mt-4">
+        <h2 class="mb-4">Search Products</h2>
 
-<form action="#" method="GET" class="search-container">
-    <input type="text" name="query" placeholder="Search by name or descript">
-    <button type="submit">Search</button>
-    <a href="#" class="clear-link">Clear</a>
-</form>
+        <form th:action="@{/product/search}" method="get" class="d-flex gap-2 mb-4">
+            <input type="text" name="keyword" class="form-control"
+                   th:value="${keyword}" placeholder="Search by name or description..." autofocus>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a th:href="@{/product/list}" class="btn btn-outline-secondary">Clear</a>
+        </form>
 
-<div class="results-summary">
-    Showing results for "" — found
-</div>
+        <!-- Results count -->
+        <p class="text-muted small" th:if="${keyword != null and !keyword.isEmpty()}">
+            Showing results for "<span th:text="${keyword}"></span>"
+            — <span th:text="${#lists.size(products)}"></span> found
+        </p>
 
-<div class="stock-label">Stock:</div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="p : ${products}">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-2" th:text="${p.category}"></span>
+                        <h5 class="card-title" th:text="${p.name}"></h5>
+                        <p class="card-text text-muted small" th:text="${p.description}"></p>
+                        <p class="fw-bold text-success" th:text="'Rs. ' + ${p.price}"></p>
+                        <p class="small">
+                            Stock:
+                            <span th:class="${p.stock > 0} ? 'text-success' : 'text-danger'"
+                                  th:text="${p.stock > 0} ? ${p.stock} + ' units' : 'Out of stock'">
+              </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<p class="no-match-message">No products matched your search.</p>
+        <div th:if="${#lists.isEmpty(products)}" class="text-center text-muted mt-5">
+            <p>No products matched your search.</p>
+        </div>
 
-</body>
+    </div>
+</main>
 </html>
-
-
